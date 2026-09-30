@@ -1,0 +1,12 @@
+# local / scratch
+*.log
+.DS_Store
+__pycache__/
+*.pyc
+.env
+*.local
+
+# engagement working files (keep SCOPE.md template; ignore per-target notes)
+findings/
+loot/
+*.session
