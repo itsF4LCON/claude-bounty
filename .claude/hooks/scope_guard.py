@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """
-scope_guard.py — Claude Code PreToolUse hook for authorized bug bounty work.
+scope_guard.py — Claude Code PreToolUse hook for authorized security assessment.
 
 Purpose
 -------
-Enforce (not just steer) that offensive-security tooling only ever runs against
+Enforce that network and security assessment tooling only ever runs against
 hosts the user has confirmed are in scope. Pairs with the `authorized-bug-bounty`
 skill and a `SCOPE.md` file in the project root.
 
 Design
 ------
-- Only gates commands that actually invoke a network / recon / exploitation tool
+- Only gates commands that actually invoke a network / recon / assessment tool
   (curl, nmap, ffuf, sqlmap, ...). Ordinary dev commands (ls, cat, git, python)
   pass straight through, so this never gets in the way of normal work.
 - When a gated tool IS present, every host/IP/URL in the command must match an
@@ -59,7 +59,7 @@ NETWORK_TOOLS = {
 DENY_PATTERNS = [
     (re.compile(r"\bhping3\b.*(--flood|--faster)"), "DoS/flood tooling (hping3 flood)"),
     (re.compile(r"\b(slowloris|goldeneye|hulk|loic|hoic|t50|mhddos)\b", re.I), "Denial-of-service tooling"),
-    (re.compile(r"\bab\b.*-c\s*([5-9]\d{2,}|\d{4,})"), "High-concurrency load/flood (ab -c very high)"),
+    (re.compile(r"\bab\b.*-c\s*([5-9]\d{2,}|\d{4,})"), "High-concurrency load testing (ab -c very high)"),
     (re.compile(r"\bnmap\b.*(-T5|--min-rate\s*(\d{4,}))"), "Aggressive nmap timing/rate (potential DoS) — lower it and confirm ROE"),
     (re.compile(r":\(\)\s*\{\s*:\|\s*:\s*&\s*\}\s*;\s*:"), "Fork bomb"),
 ]
